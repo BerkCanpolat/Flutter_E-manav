@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "95130209390",
+    "project_id": "flutter-e-manav",
+    "storage_bucket": "flutter-e-manav.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:95130209390:android:adf5c209d7fc8461fdaa7f",
+        "android_client_info": {
+          "package_name": "com.example.flutter_e_manav"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "95130209390-npue0r8rhgsrv7od1akplaraqlafd7ab.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC4hib2cvAd8JloEbidNJvTvVBnkj1M7AM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "95130209390-npue0r8rhgsrv7od1akplaraqlafd7ab.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
