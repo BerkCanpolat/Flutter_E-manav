@@ -10,6 +10,8 @@ class AuthService{
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
+  Stream<User?> get getuserStateChange => _auth.authStateChanges();
+
   Future<bool> loginService(String email, String password,BuildContext context) async{
     try {
       showLoaderDialog(context);

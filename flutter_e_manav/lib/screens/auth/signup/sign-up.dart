@@ -20,6 +20,16 @@ class _SignUpState extends State<SignUp> {
   TextEditingController password = TextEditingController();
   TextEditingController name = TextEditingController();
   TextEditingController phone = TextEditingController();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    email.text;
+    password.text;
+    name.text;
+    phone.text;
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -75,6 +85,8 @@ class _SignUpState extends State<SignUp> {
                           height: kToolbarHeight,
                         ),
                         TextFormField(
+                          keyboardType: TextInputType.emailAddress,
+                          textInputAction: TextInputAction.next,
                           controller: email,
                           decoration: InputDecoration(
                               hintText: "E-posta",
@@ -84,6 +96,9 @@ class _SignUpState extends State<SignUp> {
                           height: 12,
                         ),
                         TextFormField(
+                          obscureText: true,
+                          textInputAction: TextInputAction.next,
+                          keyboardType: TextInputType.multiline,
                           controller: password,
                           decoration: InputDecoration(
                               hintText: "Şifre",
@@ -93,6 +108,8 @@ class _SignUpState extends State<SignUp> {
                           height: 12,
                         ),
                         TextFormField(
+                          textInputAction: TextInputAction.next,
+                          keyboardType: TextInputType.name,
                           controller: name,
                           decoration: InputDecoration(
                               hintText: "İsim",
@@ -102,6 +119,8 @@ class _SignUpState extends State<SignUp> {
                           height: 12,
                         ),
                         TextFormField(
+                          textInputAction: TextInputAction.done,
+                          keyboardType: TextInputType.phone,
                           controller: phone,
                           decoration: InputDecoration(
                               hintText: "Telefon",

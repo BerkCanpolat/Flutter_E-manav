@@ -1,8 +1,10 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_e_manav/FirebaseHelper/firebase_auth.dart';
 import 'package:flutter_e_manav/constants/theme.dart';
 import 'package:flutter_e_manav/firebase_options.dart';
 import 'package:flutter_e_manav/screens/auth/welcome/welcome.dart';
+import 'package:flutter_e_manav/screens/home/home.dart';
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
@@ -19,7 +21,16 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: Welcome(),
+      home: StreamBuilder(
+        stream: AuthService.instance.getuserStateChange,
+        builder: (context, snapshot) {
+          if(snapshot.hasData){
+            return Home();
+          }else{
+            return Welcome();
+          }
+        },
+      ),
       theme: themeData,
     );
   }
