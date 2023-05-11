@@ -24,6 +24,14 @@ class _LoginState extends State<Login> {
   TextEditingController password = TextEditingController();
 
   @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    email.text;
+    password.text;
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Stack(
@@ -74,6 +82,8 @@ class _LoginState extends State<Login> {
                           height: kToolbarHeight,
                         ),
                         TextFormField(
+                          textInputAction: TextInputAction.next,
+                          keyboardType: TextInputType.emailAddress,
                           controller: email,
                           decoration: InputDecoration(
                               hintText: "E-posta", prefixIcon: Icon(Icons.email)),
@@ -82,6 +92,8 @@ class _LoginState extends State<Login> {
                           height: 12,
                         ),
                         TextFormField(
+                          textInputAction: TextInputAction.done,
+                          keyboardType: TextInputType.multiline,
                           controller: password,
                           obscureText: isVisible,
                           decoration: InputDecoration(
@@ -93,7 +105,7 @@ class _LoginState extends State<Login> {
                                     isVisible = !isVisible;
                                   });
                                 },
-                                child: Icon(isVisible ? Icons.visibility : Icons.visibility_off,color: Colors.black,)
+                                child: Icon(isVisible ? Icons.visibility_off : Icons.visibility,color: Colors.black,)
                                 ),
                               ),
 
