@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_e_manav/FirebaseHelper/firebase_auth.dart';
 import 'package:flutter_e_manav/constants/constants.dart';
 import 'package:flutter_e_manav/constants/routes.dart';
+import 'package:flutter_e_manav/screens/Drawer/drawer.dart';
 import 'package:flutter_e_manav/screens/auth/signup/sign-up.dart';
 import 'package:flutter_e_manav/screens/home/home.dart';
 import 'package:flutter_e_manav/widgets/project_button.dart';
@@ -121,7 +122,7 @@ class _LoginState extends State<Login> {
                       if(isValidate){
                         bool isLogined = await AuthService.instance.loginService(email.text, password.text, context);
                         if(isLogined){
-                          MainRoutes.instance.pushAndRemoveBack(widget: Home(), context: context);
+                          MainRoutes.instance.pushAndRemoveBack(widget: DrawerScreen(), context: context);
                         }
                       }
                     },

@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_e_manav/FirebaseHelper/firebase_auth.dart';
 import 'package:flutter_e_manav/constants/constants.dart';
 import 'package:flutter_e_manav/constants/routes.dart';
+import 'package:flutter_e_manav/screens/Drawer/drawer.dart';
 import 'package:flutter_e_manav/screens/auth/login/login.dart';
+import 'package:flutter_e_manav/screens/home/home.dart';
 import 'package:flutter_e_manav/widgets/project_button.dart';
 import 'package:flutter_e_manav/widgets/project_outlineButton.dart';
 import 'package:flutter_e_manav/widgets/project_title.dart';
@@ -137,7 +139,7 @@ class _SignUpState extends State<SignUp> {
                       if(isValidate){
                         bool isLogined = await AuthService.instance.signUpService(name.text, email.text, password.text, context);
                         if(isLogined){
-                          MainRoutes.instance.pushMain(widget: Login(), context: context);
+                          MainRoutes.instance.pushMain(widget: DrawerScreen(), context: context);
                         }
                       }
                     },
