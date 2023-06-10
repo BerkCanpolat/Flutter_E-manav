@@ -31,7 +31,7 @@ migrate_working_dir/
 .pub-cache/
 .pub/
 /build/
-ghost_folder/*
+ghost_folder/firebase_options.dart
 
 # Symbolication related
 app.*.symbols
