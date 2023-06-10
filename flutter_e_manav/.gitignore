@@ -31,7 +31,8 @@ migrate_working_dir/
 .pub-cache/
 .pub/
 /build/
-ghost_folder/firebase_options.dart
+
+sakla_beni/*
 
 # Symbolication related
 app.*.symbols

@@ -2,7 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_e_manav/FirebaseHelper/firebase_auth.dart';
 import 'package:flutter_e_manav/constants/theme.dart';
-import 'package:flutter_e_manav/ghost_folder/firebase_options.dart';
+import 'package:flutter_e_manav/sakla_beni/firebase_options.dart';
 import 'package:flutter_e_manav/screens/Drawer/drawer.dart';
 import 'package:flutter_e_manav/screens/auth/login/login.dart';
 import 'package:flutter_e_manav/screens/auth/welcome/welcome.dart';
