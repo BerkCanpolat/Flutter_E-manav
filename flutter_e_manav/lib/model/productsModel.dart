@@ -9,7 +9,7 @@ class ProductsModel {
     String? name;
     String? image;
     String? description;
-    String? price;
+    double? price;
     String? status;
     int? totalPrice;
     bool? isFavourite;
@@ -31,7 +31,8 @@ class ProductsModel {
         name: json["name"],
         image: json["image"],
         description: json["description"],
-        price: json["price"],
+        // price: json["price"],
+        price: double.parse(json["price"].toString()),
         status: json["status"],
         totalPrice: json["totalPrice"],
         isFavourite: false
@@ -47,4 +48,18 @@ class ProductsModel {
         "totalPrice": totalPrice,
         "isFavourite": isFavourite,
     };
+    @override
+    ProductsModel copyWith({
+      int? totalPrice,
+    }) => 
+    ProductsModel(
+        id: id,
+        name: name,
+        image: image,
+        price: price,
+        description: description,
+        status: status,
+        isFavourite: isFavourite,
+        totalPrice: totalPrice ?? this.totalPrice,
+    );
 }

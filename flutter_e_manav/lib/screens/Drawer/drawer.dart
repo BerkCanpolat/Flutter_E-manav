@@ -1,6 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_e_manav/constants/routes.dart';
+import 'package:flutter_e_manav/model/productsModel.dart';
+import 'package:flutter_e_manav/provider/provider.dart';
+import 'package:flutter_e_manav/screens/cardscreen/cardScreen.dart';
 import 'package:flutter_e_manav/screens/home/home.dart';
+import 'package:provider/provider.dart';
 
 class DrawerScreen extends StatefulWidget {
   const DrawerScreen({super.key});
@@ -18,12 +23,14 @@ class _DrawerScreenState extends State<DrawerScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(page == 0 ? "HOME" : page == 1 ? "Favourite" : page == 2 ? "Kart" : "login",style: TextStyle(color: Colors.black)),
+        title: Text(page == 0 ? "E-Manav" : page == 1 ? "Favourite" : page == 2 ? "Kart" : "login",style: TextStyle(color: Colors.black)),
         actions: [
           CupertinoButton(
             padding: EdgeInsets.zero,
-            child: Icon(page == 0 ? Icons.shopping_bag_outlined : page == 1 ? Icons.favorite : Icons.access_alarm_outlined,color: Colors.black,), 
-            onPressed: (){}
+            child: Icon(page == 0 ? Icons.shopping_bag_outlined : page == 0 ? Icons.favorite : Icons.access_alarm_outlined,color: Colors.black,), 
+            onPressed: (){
+              page == 0 ? MainRoutes.instance.pushMain(widget: CartScreen(), context: context) : Text("HATA");
+            }
             ),
         ],
         centerTitle: true,

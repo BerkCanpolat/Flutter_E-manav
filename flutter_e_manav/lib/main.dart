@@ -3,10 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_e_manav/FirebaseHelper/firebase_auth.dart';
 import 'package:flutter_e_manav/constants/theme.dart';
 import 'package:flutter_e_manav/firebase_option.dart';
+import 'package:flutter_e_manav/provider/provider.dart';
 import 'package:flutter_e_manav/screens/Drawer/drawer.dart';
 import 'package:flutter_e_manav/screens/auth/login/login.dart';
 import 'package:flutter_e_manav/screens/auth/welcome/welcome.dart';
 import 'package:flutter_e_manav/screens/home/home.dart';
+import 'package:provider/provider.dart';
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
@@ -21,19 +23,22 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: StreamBuilder(
-        stream: AuthService.instance.getuserStateChange,
-        builder: (context, snapshot) {
-          if(snapshot.hasData){
-            return DrawerScreen();
-          }else{
-            return Welcome();
-          }
-        },
+    return ChangeNotifierProvider(
+      create: (context) => AppProvider(),
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        home: StreamBuilder(
+          stream: AuthService.instance.getuserStateChange,
+          builder: (context, snapshot) {
+            if(snapshot.hasData){
+              return DrawerScreen();
+            }else{
+              return Welcome();
+            }
+          },
+        ),
+        theme: themeData,
       ),
-      theme: themeData,
     );
   }
 }

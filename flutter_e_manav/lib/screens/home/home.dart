@@ -1,10 +1,17 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter_e_manav/FirebaseHelper/firebase_store.dart';
+import 'package:flutter_e_manav/constants/constants.dart';
+import 'package:flutter_e_manav/constants/routes.dart';
 import 'package:flutter_e_manav/model/categoriesModel.dart';
 import 'package:flutter_e_manav/model/productsModel.dart';
+import 'package:flutter_e_manav/provider/provider.dart';
 import 'package:flutter_e_manav/screens/Drawer/drawer.dart';
+import 'package:flutter_e_manav/screens/categories_details/categories_details.dart';
+import 'package:flutter_e_manav/screens/product_details/product_details.dart';
+import 'package:provider/provider.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -31,6 +38,7 @@ class _HomeState extends State<Home> {
     });
     displayCategory = await StoreService.instance.categoryModel();
     displayProduct = await StoreService.instance.productModel();
+    displayProduct.shuffle();
     setState(() {
       isLoading = !isLoading;
     });
@@ -38,6 +46,7 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
+    AppProvider appProvider = Provider.of<AppProvider>(context);
     return isLoading ? Center(child: CircularProgressIndicator(),) : Scaffold(
       body: Container(
         child: SingleChildScrollView(
@@ -114,16 +123,21 @@ class _HomeState extends State<Home> {
                       .map(
                         (e) => Container(
                           padding: EdgeInsets.symmetric(horizontal: 16),
-                          child: Container(
-                            width: 300,
-                            height: 145,
-                            decoration: BoxDecoration(
-                               color: Colors.red,
-                               borderRadius: BorderRadius.circular(12)
-                            ),
-                            child: Image.network(
-                              e.image,
-                              fit: BoxFit.fitHeight,
+                          child: InkWell(
+                            onTap: () {
+                              MainRoutes.instance.pushMain(widget: CategoriesDetails(categoriesDetails: e), context: context);
+                            },
+                            child: Container(
+                              width: 280,
+                              height: 145,
+                              decoration: BoxDecoration(
+                                 color: Colors.red,
+                                 borderRadius: BorderRadius.circular(12)
+                              ),
+                              child: Image.network(
+                                e.image,
+                                fit: BoxFit.fitHeight,
+                              ),
                             ),
                           ),
                         ),
@@ -139,40 +153,56 @@ class _HomeState extends State<Home> {
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2,
                     childAspectRatio: 0.7,
-                    crossAxisSpacing: 10,
-                    mainAxisSpacing: 10
+                    crossAxisSpacing: 20,
+                    mainAxisSpacing: 30
                   ), 
                   itemCount: displayProduct.length,
                   itemBuilder: (context, index) {
                     ProductsModel pro = displayProduct[index];
-                    return Card(
-                      color: Colors.white,
-                      elevation: 1,
-                      child: Container(
-                        decoration: BoxDecoration(
-                          border: Border.all(color: Colors.green),
-                          borderRadius: BorderRadius.circular(15),
-                        ),
-                        child: Column(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(right: 10,top: 3),
-                              child: Container(
-                                alignment: Alignment.centerRight,
-                                child: Icon(Icons.favorite_border),
-                              ),
+                    return Container(
+                      decoration: BoxDecoration(
+                        border: Border.all(color: Colors.green),
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                      child: Column(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(right: 10,top: 3),
+                            child: Container(
+                              alignment: Alignment.centerRight,
+                              child: CupertinoButton(
+                                padding: EdgeInsets.zero,
+                                onPressed: (){
+                                  setState(() {
+                                    pro.isFavourite = !pro.isFavourite!;
+                                    if(pro.isFavourite!){
+                                      appProvider.addFavourite(pro);
+                                      showMessage("Favoriye eklendi");
+                                    }else{
+                                      appProvider.removeFavourite(pro);
+                                      showMessage("Favoriden kaldırıldı");
+                                    }
+                                  });
+                                },
+                                child: appProvider.getFavourite.contains(pro) ? Icon(Icons.favorite,color: Colors.red,) : Icon(Icons.favorite_border,color: Colors.black,) 
+                                ),
                             ),
-                            Image.network(pro.image!,width: 150,height: 150,),
-                            Text(pro.name!,style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20),),
-                            SizedBox(height: 5,),
-                            Text("${pro.price} / Kg",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 15),)
-                          ],
-                        ),
+                          ),
+                          InkWell(
+                            onTap: () {
+                              MainRoutes.instance.pushMain(widget: ProductDetails(productDetails: pro), context: context);
+                            },
+                            child: Image.network(pro.image!,width: 135,height: 135,)),
+                          Text(pro.name!,style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20),),
+                          SizedBox(height: 5,),
+                          Text("${pro.price} / Kg",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 15),)
+                        ],
                       ),
                     );
                   },
                   ),
               ),
+              SizedBox(height: 30,)
             ],
           ),
         ),

@@ -26,6 +26,7 @@ ThemeData themeData = ThemeData(
     backgroundColor: Colors.transparent,
     elevation: 0.0,
     iconTheme: IconThemeData(color: Colors.black),
+    titleTextStyle: TextStyle(color: Colors.black,fontWeight: FontWeight.bold,fontSize: 18)
   ),
 );
 
