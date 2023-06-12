@@ -28,12 +28,32 @@ class AuthService{
     try {
       showLoaderDialog(context);
       UserCredential credential = await _auth.createUserWithEmailAndPassword(email: email, password: password);
-      UsersModel model = UsersModel(id: credential.user!.uid, name: name, email: email);
+      UsersModel model = UsersModel(id: credential.user!.uid, name: name, email: email, image: null);
       _firestore.collection("users").doc(model.id).set(model.toJson());
       Navigator.pop(context);
       return true;
     }on FirebaseAuthException catch (e) {
       Navigator.pop(context);
+      showMessage(e.code.toString());
+      return false;
+    }
+  }
+
+  void signOut() async{
+    await _auth.signOut();
+  }
+
+
+  Future<bool> changePassword(String password, BuildContext context) async{
+    try {
+      showLoaderDialog(context);
+      _auth.currentUser!.updatePassword(password);
+      Navigator.of(context,rootNavigator: true).pop();
+      showMessage("Şifre Değiştirildi");
+      Navigator.of(context).pop();
+      return true;
+    }on FirebaseAuthException catch (e) {
+      Navigator.of(context).pop();
       showMessage(e.code.toString());
       return false;
     }
