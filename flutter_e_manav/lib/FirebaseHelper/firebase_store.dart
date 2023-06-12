@@ -1,7 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_e_manav/constants/constants.dart';
 import 'package:flutter_e_manav/model/categoriesModel.dart';
 import 'package:flutter_e_manav/model/productsModel.dart';
+import 'package:flutter_e_manav/model/usersModel.dart';
 
 class StoreService{
   static StoreService instance = StoreService();
@@ -45,5 +47,11 @@ class StoreService{
       showMessage(e.toString());
       return [];
     }
+  }
+
+
+  Future<UsersModel> fireStoreUserInformation() async{
+    DocumentSnapshot<Map<String,dynamic>> documentSnapshot = await _firestore.collection("users").doc(FirebaseAuth.instance.currentUser!.uid).get();
+    return UsersModel.fromJson(documentSnapshot.data()!);
   }
 }

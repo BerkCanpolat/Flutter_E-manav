@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -11,6 +12,7 @@ import 'package:flutter_e_manav/provider/provider.dart';
 import 'package:flutter_e_manav/screens/Drawer/drawer.dart';
 import 'package:flutter_e_manav/screens/categories_details/categories_details.dart';
 import 'package:flutter_e_manav/screens/product_details/product_details.dart';
+import 'package:flutter_e_manav/screens/research/research.dart';
 import 'package:provider/provider.dart';
 
 class Home extends StatefulWidget {
@@ -30,6 +32,8 @@ class _HomeState extends State<Home> {
     // TODO: implement initState
     super.initState();
     getCategory();
+    AppProvider appProvider = Provider.of<AppProvider>(context,listen: false);
+    appProvider.providerUserInformation();
   }
 
   void getCategory() async {
@@ -39,15 +43,17 @@ class _HomeState extends State<Home> {
     displayCategory = await StoreService.instance.categoryModel();
     displayProduct = await StoreService.instance.productModel();
     displayProduct.shuffle();
+    if(this.mounted){
     setState(() {
       isLoading = !isLoading;
     });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     AppProvider appProvider = Provider.of<AppProvider>(context);
-    return isLoading ? Center(child: CircularProgressIndicator(),) : Scaffold(
+      return isLoading ? Center(child: CircularProgressIndicator(),) : Scaffold(
       body: Container(
         child: SingleChildScrollView(
           child: Column(
@@ -56,7 +62,7 @@ class _HomeState extends State<Home> {
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: Column(
                   children: [
-                TextField(
+                TextFormField(
                   decoration: InputDecoration(
                       hintText: "Search",
                       hintStyle: TextStyle(color: Colors.black),
