@@ -39,9 +39,9 @@ class _LoginState extends State<Login> {
         children: [
           Background(),
           BackgroundTwo(),
-          Padding(
-            padding: const EdgeInsets.only(top: kToolbarHeight),
-            child: SingleChildScrollView(
+          SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.only(top: kToolbarHeight),
               child: Column(
                 children: [
                   Padding(
@@ -109,7 +109,7 @@ class _LoginState extends State<Login> {
                                 child: Icon(isVisible ? Icons.visibility_off : Icons.visibility,color: Colors.black,)
                                 ),
                               ),
-
+                
                         ),
                       ],
                     ),

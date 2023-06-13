@@ -67,6 +67,7 @@ class AppProvider with ChangeNotifier {
     notifyListeners();
   }
 
+
   void updateProfile(BuildContext context, File file, UsersModel usersModel) async{
     if(file == null){
       showLoaderDialog(context);
