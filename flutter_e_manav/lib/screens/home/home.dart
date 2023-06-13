@@ -50,10 +50,67 @@ class _HomeState extends State<Home> {
     }
   }
 
+  final TextEditingController showUser = TextEditingController();
+  bool iShowUser = false;
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    showUser.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     AppProvider appProvider = Provider.of<AppProvider>(context);
-      return isLoading ? Center(child: CircularProgressIndicator(),) : Scaffold(
+   return iShowUser ? Scaffold(
+      body: 
+      FutureBuilder(
+                  future: FirebaseFirestore.instance.collection("categories").where("name",isEqualTo: showUser.text).get(),
+                  builder: (context, snapshot) {
+                    if(snapshot.connectionState == ConnectionState.waiting){
+                      return Center(child: CircularProgressIndicator(),);
+                    }
+                    return               Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 12),
+                child: GridView.builder(
+                  shrinkWrap: true,
+                  primary: false,
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    childAspectRatio: 0.7,
+                    crossAxisSpacing: 20,
+                    mainAxisSpacing: 30
+                  ), 
+                  itemCount: snapshot.data?.docs.length,
+                  itemBuilder: (context, index) {
+                    return Container(
+                      decoration: BoxDecoration(
+                        border: Border.all(color: Colors.green),
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                      child: Column(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(right: 10,top: 3),
+                            child: Container(
+                              alignment: Alignment.centerRight,
+                              child: Icon(Icons.favorite_border,color: Colors.black,),
+                            ),
+                          ),
+                          Image.network(snapshot.data?.docs[index]["image"],width: 135,height: 135,),
+                          Text(snapshot.data?.docs[index]["name"],style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20),),
+                          SizedBox(height: 5,),
+                        ],
+                      ),
+                    );
+                  },
+                  ),
+              );
+                  },
+                ),
+    ) :
+      isLoading ? Center(child: CircularProgressIndicator(),) : Scaffold(
       body: Container(
         child: SingleChildScrollView(
           child: Column(
@@ -63,13 +120,20 @@ class _HomeState extends State<Home> {
                 child: Column(
                   children: [
                 TextFormField(
+                  controller: showUser,
                   decoration: InputDecoration(
                       hintText: "Search",
                       hintStyle: TextStyle(color: Colors.black),
                       prefixIcon: Icon(
                         Icons.search,
                         color: Colors.black,
-                      )),
+                      ),
+                      ),
+                      onFieldSubmitted: (value) {
+                        setState(() {
+                          iShowUser = true;
+                        });
+                      },
                   cursorColor: Colors.green,
                 ),
                 Padding(
@@ -212,7 +276,7 @@ class _HomeState extends State<Home> {
             ],
           ),
         ),
-      ),
+      )
     );
   }
 }
